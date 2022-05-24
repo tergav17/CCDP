@@ -1,21 +1,21 @@
 ;	Program starts at 0x0200
 	
-crc_poly	equ	10100111b
+crc_poly	equ 10100111b
 
 ; --- VARIABLES ---
 
 ; Save registers
-v_asave		equ	0x0400
-v_bsave		equ	0x0402
+v_asave		equ 0x0400
+v_bsave		equ 0x0402
 
 ; CRC variable
-v_crc		equ	0x0404
+v_crc		equ 0x0404
 
 ; Execution vector
 v_exec		equ 0x0405
 
 ; File name
-fname		equ	open_com+3		
+fname		equ open_com+3		
 
 ; Block buffer
 buffer		equ 0x0300

@@ -1,23 +1,23 @@
 ; --- EQUATES ---
 
-combuf		equ	0x01C0
-crc_poly	equ	10100111b
+combuf		equ 0x01C0
+crc_poly	equ 10100111b
 
 ; --- VARIABLES ---
 
 ; System variable block base
-v_base		equ	top
+v_base		equ top
 
 
 ; Save registers
-v_asave		equ	v_base
-v_bsave		equ	v_base+2
+v_asave		equ v_base
+v_bsave		equ v_base+2
 
 ; CRC variable
-v_crc		equ	v_base+4
+v_crc		equ v_base+4
 
 ; Execution variables
-v_execbuf	equ	v_base+5
+v_execbuf	equ v_base+5
 
 ; --- TEXT ---
 
