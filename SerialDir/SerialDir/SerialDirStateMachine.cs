@@ -168,9 +168,9 @@ namespace SerialDir.SerialDir {
                         try {
                             File.Create(Path.Combine(FilePath, fname));
                             hasOpened = true;
-                            Console.WriteLine("M");
+                            Console.Write("M");
                         } catch (Exception) {
-                            Console.WriteLine("?");
+                            Console.Write("?");
                         }
 
                         // Return condition
@@ -184,9 +184,9 @@ namespace SerialDir.SerialDir {
                         try {
                             File.Delete(Path.Combine(FilePath, fname));
                             hasDeleted = true;
-                            Console.WriteLine("D");
+                            Console.Write("D");
                         } catch (Exception) {
-                            Console.WriteLine("?");
+                            Console.Write("?");
                         }
                         
                         // Return condition
@@ -269,7 +269,7 @@ namespace SerialDir.SerialDir {
                             // Indicate return of 0 bytes
                             AddAndCheck(response, 0x00);
                             
-                            Console.WriteLine("'");
+                            Console.Write("'");
 
                             for (int i = 0; i < 256; i++) {
                                 int addr = (_block * 256) + i;

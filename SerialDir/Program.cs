@@ -35,6 +35,7 @@ namespace SerialDir {
                 serialPort.Open();
             } catch (Exception) {
                 Console.WriteLine("Cannot Open Serial Port!");
+                return;
             }
 
             Console.WriteLine("Opened " + args[0] + " At " + baudRate + " Baud");
