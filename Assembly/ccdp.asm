@@ -334,11 +334,11 @@ fs_com_noblk:
 ; BL = Byte to send
 ; Destroys: AL, BL
 fs_send:
-	ld		al,(0xF206)
+	ld		al,(0xF202)
 	srr		al
 	srr		al
 	bnl		fs_send
-	st		bl,(0xF207)
+	st		bl,(0xF203)
 	jsr		fs_crc
 	rsr
 	
@@ -346,10 +346,10 @@ fs_send:
 ; AL = Returned byte
 ; Destroys: AL, BL
 fs_recv:
-	ld		al,(0xF206)
+	ld		al,(0xF202)
 	srr		al
 	bnl		fs_recv
-	ld		al,(0xF207)
+	ld		al,(0xF203)
 	xfr		al,bl
 	jsr		fs_crc
 	rsr
