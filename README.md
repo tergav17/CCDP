@@ -46,11 +46,11 @@ By loading 0xC5 into 0xF202, this *should* set the serial port to the correct ba
 Start by booting the the Centurion into TOS, then type in the following program.
 
 ```
-/M018E C0 01 E1 F2 03 D0 02 00 55 2A 81 F2 02 2C 11 FA 81 F2 03 A9 20 30 15 F2
-/G018E
+/M01E8 C0 01 E1 F2 03 D0 02 00 55 2A 81 F2 02 2C 11 FA 81 F2 03 A9 20 30 15 F2
+/G01E8
 ```
 
-It is important to place the bootstrap program at 0x018E in memory.
+It is important to place the bootstrap program at 0x01E8 in memory.
 
 Included below is the listing for bootstrap.asm, this may be easier to read while typing in:
 
