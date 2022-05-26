@@ -77,7 +77,7 @@ Included below is the listing for bootstrap.asm, this may be easier to read whil
 If all has well in the last part, you should be greeted with the following prompt:
 
 ```
-/G018E
+/G01E8
 
 @
 ```
