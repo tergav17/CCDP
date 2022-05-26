@@ -24,6 +24,11 @@ ldwrx6 -b -C 512 copy.o -o copy.raw
 dd if=copy.raw bs=512 skip=1 of=bin/COPY.BIN
 rm copy.raw copy.o
 
+aswrx6 -l listing_delete.txt delete.asm
+ldwrx6 -b -C 512 delete.o -o delete.raw
+dd if=delete.raw bs=512 skip=1 of=bin/DELETE.BIN
+rm delete.raw delete.o
+
 aswrx6 -l listing_boot.txt boot.asm
 ldwrx6 -b -C 512 boot.o -o boot.raw
 dd if=boot.raw bs=512 skip=1 of=bin/BOOT.BIN
