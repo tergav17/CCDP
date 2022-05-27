@@ -37,10 +37,10 @@ Booting up CCDP happens in 2 stages. The first stage involves using a bootstrap 
 
 Before serial communication can happen, the MUX1 serial terminal needs to be configured to run at 9600 baud, 8N1. This will be done in TOS for simplicites sake. Once we know how to set up the serial ports for other speeds, this step can be changed to allow for CCDP to run at higher speeds.
 
-By loading 0xC5 into 0xF206, this *should* set the serial port to the correct baud rate.
+By loading 0xD6 into 0xF206, this will set the serial port to the correct baud rate.
 
 ```
-/MF206 C5
+/MF206 D6
 ```
 
 It may also be useful to examine 0xF207 to ensure that the serial input register is cleared. If 0xF206 examines to an odd number, then 0xF207 NEEDS to be examined before the bootstrap process can start.
