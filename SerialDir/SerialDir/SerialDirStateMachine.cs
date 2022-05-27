@@ -141,7 +141,7 @@ namespace SerialDir.SerialDir {
                         CloseFile();
 
 
-                        if (OpenFile(Path.Combine(FilePath, fname))) {
+                        if (OpenFile(fname)) { 
                             hasOpened = true;
                             Console.Write("O");
                         } else {
