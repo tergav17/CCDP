@@ -7,7 +7,7 @@ using SerialDir.SerialDir;
 namespace SerialDir {
     class Program {
         static void Main(string[] args) {
-            Console.WriteLine("SerialDir V0.1.1 [DEBUG]");
+            Console.WriteLine("SerialDir V0.1.2 [DEBUG]");
 
             if (args.Length <= 1) {
                 Console.WriteLine("Usage: SerialDir [Port] [Baudrate]");
@@ -28,6 +28,7 @@ namespace SerialDir {
 
             SerialPort serialPort = new SerialPort(args[0], baudRate, Parity.None, 8, StopBits.One);
             serialPort.Handshake = Handshake.None;
+            serialPort.Encoding = System.Text.Encoding.GetEncoding("iso-8859-1");
 
             serialPort.WriteTimeout = 1000;
 
