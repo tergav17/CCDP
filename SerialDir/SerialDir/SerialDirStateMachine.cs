@@ -145,7 +145,7 @@ namespace SerialDir.SerialDir {
                             hasOpened = true;
                             Console.Write("O");
                         } else {
-                            Console.Write("?");
+                            Console.Write("X");
                         }
 
                         // Return condition
@@ -326,6 +326,8 @@ namespace SerialDir.SerialDir {
             try {
                 byte[] bytes = File.ReadAllBytes(Path.Combine(FilePath, fname));
 
+                Console.WriteLine("Opening " + Path.Combine(FilePath, fname));
+                
                 // Buffer the file
                 _fileBuffer = new List<byte>();
                 foreach (byte b in bytes) {
@@ -379,6 +381,8 @@ namespace SerialDir.SerialDir {
             for (int i = 0; i < 13 && _buffer[i] != 0; i++) {
                 name = name + System.Text.Encoding.ASCII.GetString(new[]{_buffer[i]});
             }
+            
+            Console.WriteLine("Decoded Filename '" + name.ToUpper() + "'");
 
             return name.ToUpper();
         }
