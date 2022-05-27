@@ -45,6 +45,7 @@ Destroys: All
 Puts a character on the terminal
 
 BL = ASCII to print
+
 Destroys: AL, BL
 
 ## TTY_PUTB
@@ -52,6 +53,7 @@ Destroys: AL, BL
 Puts a byte in hex on the terminal
 
 BL = Byte to print
+
 Destroys: A, BL
 
 ## TTY_PUTW
@@ -59,6 +61,7 @@ Destroys: A, BL
 Puts a word in hex on the terminal
 
 B = Word to print
+
 Destroys: A, B
 
 ## TTY_PUTS
@@ -66,6 +69,7 @@ Destroys: A, B
 Puts a string on the terminal (zero terminated)
 
 B = Address of ASCII string
+
 Destroys: AL, B, Y
 
 ## TTY_GETC
@@ -73,6 +77,7 @@ Destroys: AL, B, Y
 Gets a character from the terminal
 
 AL = Returned ASCII character
+
 Destroys: AL, BL
 
 ## TTY_GETS
@@ -80,6 +85,7 @@ Destroys: AL, BL
 Gets a line of characters from the terminal
 
 AL = Buffer size - 1 (max number of characters)
+
 B = Buffer location
 
 Destroys: A, B, Y
@@ -89,7 +95,9 @@ Destroys: A, B, Y
 Opens up a file for use, any currently opened file is closed
 
 B = Filename string
+
 AL = Returned status
+
 Destroys: A, B, Y 
 
 ## FS_CLOSE 
@@ -97,6 +105,7 @@ Destroys: A, B, Y
 Closes the currently open file
 
 AL = Returned status
+
 Destroys; A, B
 
 ## FS_MAKE
@@ -104,7 +113,9 @@ Destroys; A, B
 Makes a new file, but does not open it
 
 B = Filename string
+
 AL = Returned status
+
 Destroys: A, B, Y 
 
 ## FS_DELETE
@@ -112,7 +123,9 @@ Destroys: A, B, Y
 Deletes an existing file
 
 B = Filename string
+
 AL = Returned status
+
 Destroys: A, B, Y 
 
 ## FS_LIST
@@ -120,8 +133,11 @@ Destroys: A, B, Y
 Lists a filename and size from the directory
 
 A = Entry number
+
 B = Result buffer
+
 AL = Returned status
+
 Destroys: A, B, Y
 
 ## FS_READ
@@ -129,8 +145,11 @@ Destroys: A, B, Y
 Reads a block from a file
 
 A = Block number
+
 B = Result buffer
+
 AL = Returned status
+
 Destroys: A, B, Y
 
 ## FS_WRITE
@@ -138,6 +157,9 @@ Destroys: A, B, Y
 Writes a block to a file
 
 A = Block number
+
 B = Source address
+
 AL = Returned status
+
 Destroys: A, B, Y
