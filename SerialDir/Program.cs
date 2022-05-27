@@ -7,7 +7,7 @@ using SerialDir.SerialDir;
 namespace SerialDir {
     class Program {
         static void Main(string[] args) {
-            Console.WriteLine("SerialDir V0.1.5 [DEBUG]");
+            Console.WriteLine("SerialDir V0.1.6");
 
             if (args.Length <= 1) {
                 Console.WriteLine("Usage: SerialDir [Port] [Baudrate]");
@@ -46,15 +46,10 @@ namespace SerialDir {
                 
                 byte b = Convert.ToByte(readChar);
 
-                Console.WriteLine("Received Value " + readChar + " (0x" + b.ToString("X2") + ")");
-                
                 List<byte> response = stateMachine.ReceiveByte(b);
                 
                 if (response.Count > 0) {
-                    Console.Write("Sending [");
-                    foreach (byte r in response) Console.Write(r.ToString("X2"));
-                    Console.WriteLine("]");
-                    
+
                     serialPort.Write(response.ToArray(), 0, response.Count);
                 }
             }

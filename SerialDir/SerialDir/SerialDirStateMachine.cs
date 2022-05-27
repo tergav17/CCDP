@@ -324,9 +324,6 @@ namespace SerialDir.SerialDir {
             CloseFile();
 
             try {
-                
-                Console.WriteLine("Opening " + Path.Combine(FilePath, fname));
-                
                 byte[] bytes = File.ReadAllBytes(Path.Combine(FilePath, fname));
 
                 // Buffer the file
@@ -337,8 +334,7 @@ namespace SerialDir.SerialDir {
                 
                 // Pad with zeros
                 while (_fileBuffer.Count % 256 != 0) _fileBuffer.Add(0x00);
-            } catch (Exception e) {
-                Console.WriteLine(e.Message);
+            } catch (Exception) {
                 return false;
             }
             
@@ -383,8 +379,6 @@ namespace SerialDir.SerialDir {
             for (int i = 0; i < 13 && _buffer[i] != 0; i++) {
                 name = name + System.Text.Encoding.ASCII.GetString(new[]{_buffer[i]});
             }
-            
-            Console.WriteLine("Decoded Filename '" + name.ToUpper() + "'");
 
             return name.ToUpper();
         }
