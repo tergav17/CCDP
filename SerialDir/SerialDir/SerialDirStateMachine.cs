@@ -324,10 +324,11 @@ namespace SerialDir.SerialDir {
             CloseFile();
 
             try {
-                byte[] bytes = File.ReadAllBytes(Path.Combine(FilePath, fname));
-
+                
                 Console.WriteLine("Opening " + Path.Combine(FilePath, fname));
                 
+                byte[] bytes = File.ReadAllBytes(Path.Combine(FilePath, fname));
+
                 // Buffer the file
                 _fileBuffer = new List<byte>();
                 foreach (byte b in bytes) {
@@ -336,7 +337,8 @@ namespace SerialDir.SerialDir {
                 
                 // Pad with zeros
                 while (_fileBuffer.Count % 256 != 0) _fileBuffer.Add(0x00);
-            } catch (Exception) {
+            } catch (Exception e) {
+                Console.WriteLine(e.Message);
                 return false;
             }
             
