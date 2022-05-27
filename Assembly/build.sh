@@ -2,6 +2,10 @@ aswrx6 -l listing_ccdp.txt ccdp.asm
 ldwrx6 -b -C 28672 ccdp.o -o ccdp.raw
 dd if=ccdp.raw bs=28672 skip=1 of=bin/CCDP.BIN
 cat headers/32K.header bin/CCDP.BIN > bin/32K.SYS
+
+ldwrx6 -b -C 15360 ccdp.o -o ccdp.raw
+dd if=ccdp.raw bs=15360 skip=1 of=bin/CCDP.BIN
+cat headers/16K.header bin/CCDP.BIN > bin/16K.SYS
 rm ccdp.o ccdp.raw bin/CCDP.BIN
 
 aswrx6 -l listing_hello.txt hello.asm

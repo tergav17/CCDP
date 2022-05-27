@@ -110,11 +110,11 @@
 1 0098 :                         ; BL = Byte to send
 1 0098 :                         ; Destroys: AL, BL
 1 0098 :                         fs_send:
-1 0098 : 81 F2 02                	ld		al,(0xF202)
+1 0098 : 81 F2 06                	ld		al,(0xF206)
 1 009B : 2C                      	srr		al
 1 009C : 2C                      	srr		al
 1 009D : 11 F9                   	bnl		fs_send
-1 009F : E1 F2 03                	st		bl,(0xF203)
+1 009F : E1 F2 07                	st		bl,(0xF207)
 1 00A2 : 79 00 BA                	jsr		fs_crc
 1 00A5 : 09                      	rsr
 1 00A6 :                         	
@@ -122,10 +122,10 @@
 1 00A6 :                         ; AL = Returned byte
 1 00A6 :                         ; Destroys: AL, BL
 1 00A6 :                         fs_recv:
-1 00A6 : 81 F2 02                	ld		al,(0xF202)
+1 00A6 : 81 F2 06                	ld		al,(0xF206)
 1 00A9 : 2C                      	srr		al
 1 00AA : 11 FA                   	bnl		fs_recv
-1 00AC : 81 F2 03                	ld		al,(0xF203)
+1 00AC : 81 F2 07                	ld		al,(0xF207)
 1 00AF : 4D                      	xfr		al,bl
 1 00B0 : 79 00 BA                	jsr		fs_crc
 1 00B3 : 09                      	rsr
