@@ -67,6 +67,8 @@ namespace SerialDir.SerialDir {
                         byte[] bytes = File.ReadAllBytes(Path.Combine(FilePath, "BOOT.BIN"));
 
                         for (int i = 0; i < 256; i++) if (i < bytes.Length) bootloader[i] = bytes[i];
+                        
+                        Console.Write("B");
                     } catch (Exception) {
                         Console.WriteLine("Cannot load bootstrap!");
                     }
@@ -74,7 +76,6 @@ namespace SerialDir.SerialDir {
                     foreach (byte by in bootloader) response.Add(by);
 
                 } else if (b >= 2 && b <= 8) {
-                    // [C]lose File
                     _state = State.GetBlockHigh;
                 }
             } 
@@ -229,12 +230,12 @@ namespace SerialDir.SerialDir {
 
                             int len;
                             if (info.Length > 16777215) {
-                                len = 65535;
+                                len = 0;
                             } else {
                                 len = Convert.ToInt32((info.Length / 256) + ((info.Length % 256 > 0) ? 1 : 0));
                             }
                             
-                            AddAndCheck(response, Convert.ToByte(len >> 8));
+                            AddAndCheck(response, Convert.ToByte((len >> 8) & 0xFF));
                             AddAndCheck(response,Convert.ToByte(len & 0xFF));
                         } catch (Exception) {
                             AddAndCheck(response,0x00);
