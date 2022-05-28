@@ -76,7 +76,7 @@ Included below is the listing for bootstrap.asm, this may be easier to read whil
 
 ### Part 3, Stage 2 Bootstrap
 
-If all has well in the last part, you should be greeted with the following prompt:
+If all has gone well in the last part, you should be greeted with the following prompt:
 
 ```
 /G01E8
