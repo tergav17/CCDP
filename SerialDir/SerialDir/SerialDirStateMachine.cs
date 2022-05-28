@@ -231,7 +231,7 @@ namespace SerialDir.SerialDir {
                             if (info.Length > 16777215) {
                                 len = 65535;
                             } else {
-                                len = Convert.ToInt32(info.Length / 256);
+                                len = Convert.ToInt32((info.Length / 256) + ((info.Length % 256 > 0) ? 1 : 0));
                             }
                             
                             AddAndCheck(response, Convert.ToByte(len >> 8));
@@ -305,7 +305,7 @@ namespace SerialDir.SerialDir {
             if (_fileOpen) {
                 _fileOpen = false;
                 try {
-                    BinaryWriter writer = new BinaryWriter(File.OpenWrite(_fileName));
+                    BinaryWriter writer = new BinaryWriter(File.OpenWrite(Path.Combine(FilePath, _fileName)));
                     writer.Write(_fileBuffer.ToArray());
                     writer.Close();
                 } catch (Exception) {
