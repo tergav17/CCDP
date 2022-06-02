@@ -167,7 +167,7 @@ namespace SerialDir.SerialDir {
                         bool hasOpened = false;
 
                         try {
-                            File.Create(Path.Combine(FilePath, fname));
+                            File.Create(Path.Combine(FilePath, fname)).Close();
                             hasOpened = true;
                             Console.Write("M");
                         } catch (Exception) {

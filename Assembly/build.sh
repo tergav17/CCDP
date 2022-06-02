@@ -43,6 +43,11 @@ ldwrx6 -b -C 512 -o ffcmon.raw ffcmon.o
 dd if=ffcmon.raw bs=512 skip=1 of=bin/FFCMON.BIN
 rm ffcmon.raw ffcmon.o
 
+aswrx6 -l listing_hwkdump.txt hwkdump.asm
+ldwrx6 -b -C 512 -o hwkdump.raw hwkdump.o
+dd if=hwkdump.raw bs=512 skip=1 of=bin/HWKDUMP.BIN
+rm hwkdump.raw hwkdump.o
+
 aswrx6 -l listing_bootstrap.txt bootstrap.asm
 rm bootstrap.o
 

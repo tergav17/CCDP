@@ -14,13 +14,16 @@ fs_delete	equ 0x011E
 fs_list		equ 0x0121
 fs_read		equ 0x0124
 fs_write	equ 0x0127
+gen_htoi	equ 0x012A
+tty_next	equ 0x012D
 
 combuf		equ 0x01C0
 	
 ;	Program starts at 0x0200
 	
 ; --- TEXT ---
-	
+	ld		b,str_hello
+	jsr		tty_puts
 options:
 	ld		b,str_opt
 	jsr		tty_puts
@@ -149,10 +152,10 @@ seltrack:
 	ld		al,4
 	jsr		tty_gets		
 	ld		b,(hex_buffer)
-	jsr		funct_htoi
+	jsr		gen_htoi
 	st		al,(-s)
 	ld		b,(hex_buffer+2)
-	jsr		funct_htoi
+	jsr		gen_htoi
 	ld		bl,(s+)
 	xfr		bl,ah
 	ori		a,a
@@ -172,44 +175,6 @@ seltrack_e:
 	jsr		tty_puts
 	jmp		seltrack
 
-; --- FUNCTIONS ---
-; Turns a hex number in ASCII into a value
-; AL = Returned value
-; B = Hex value
-funct_htoi:
-	jsr		funct_htoi_n
-	xfr		al,ah
-	xfr		bh,bl
-	jsr		funct_htoi_n
-	slr		al
-	slr		al
-	slr		al
-	slr		al
-	ori		ah,al
-	rsr
-	
-	
-funct_htoi_n:
-	xfr		bl,al
-	ld		bl,'0'
-	sub		al,bl
-	bp		funct_htoi_i
-funct_htoi_e:
-	clr		al
-	rsr
-funct_htoi_i:
-	ld		al,10
-	sub		bl,al
-	bp		funct_htoi_a
-	xfr		bl,al
-	rsr
-funct_htoi_a:
-	ld		al,7
-	sub		bl,al
-	ld		bl,16
-	sub		al,bl
-	bp 		funct_htoi_e
-	rsr
 	
 ; Sets DMA Addr/Cnt
 ; A = Count
@@ -314,7 +279,7 @@ wait_done_fin_e:
 
 ; --- STRINGS ---
 str_hello:
-	.ascii "FFC MONITOR/DIAGNOSTIC PROGRAM"
+	.ascii "FFC MONITOR/DIAGNOSTIC UTILITY V0.1.1"
 str_crlf:
 	.byte	0x0D,0x0A,0x00
 

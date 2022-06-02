@@ -6,7 +6,7 @@ crc_poly	equ 10100111b
 ; --- VARIABLES ---
 
 ; System variable block base
-v_base		equ top
+v_base		equ textop
 
 
 ; Save registers
@@ -18,6 +18,10 @@ v_crc		equ v_base+4
 
 ; Execution variables
 v_execbuf	equ v_base+5
+
+; Image top
+
+top			equ	v_base+15
 
 ; --- TEXT ---
 
@@ -172,6 +176,43 @@ gen_memcpy_l:
 	st		al,(b+)
 	dcr		ah
 	bnz		gen_memcpy_l
+	rsr
+	
+; Turns a hex number in ASCII into a value
+; AL = Returned value
+; B = Hex value
+; Destroys: A, B
+gen_htoi:
+	jsr		gen_htoi_n
+	xfr		al,ah
+	xfr		bh,bl
+	jsr		gen_htoi_n
+	slr		al
+	slr		al
+	slr		al
+	slr		al
+	ori		ah,al
+	rsr
+gen_htoi_n:
+	xfr		bl,al
+	ld		bl,'0'
+	sub		al,bl
+	bp		gen_htoi_i
+gen_htoi_e:
+	clr		al
+	rsr
+gen_htoi_i:
+	ld		al,10
+	sub		bl,al
+	bp		gen_htoi_a
+	xfr		bl,al
+	rsr
+gen_htoi_a:
+	ld		al,7
+	sub		bl,al
+	ld		bl,16
+	sub		al,bl
+	bp 		gen_htoi_e
 	rsr
 
 ; --- FILESYSTEM OPERATIONS ---
@@ -535,6 +576,20 @@ tty_gets_rt:
 	clr		al
 	st		al,(y)
 	rsr
+	
+; Returns if there is a character to read or not
+; AL = Returns 0 if no character
+; Destroys: AL
+tty_next:
+	ld		al,(0xF200)
+	srr		al
+	bnl		tty_next_n
+	ld		al,1
+	rsr
+tty_next_n:
+	clr		al
+	rsr
+	
 
 ; --- CONSTANTS ---
 
@@ -590,8 +645,9 @@ vec_tab:
 	jmp		fs_list			; B - FS_LIST
 	jmp		fs_read			; C - FS_READ
 	jmp		fs_write		; D - FS_WRITE
-	
+	jmp		gen_htoi		; E - GEN_HTOI
+	jmp		tty_next		; F - TTY_NEXT
 
-; --- IMAGE TOP ---
-top:
+; --- TEXT TOP ---
+textop:
 ; Do not program beyond this point

@@ -7,7 +7,7 @@ using SerialDir.SerialDir;
 namespace SerialDir {
     class Program {
         static void Main(string[] args) {
-            Console.WriteLine("SerialDir V0.1.8");
+            Console.WriteLine("SerialDir V0.2.0");
 
             if (args.Length <= 1) {
                 Console.WriteLine("Usage: SerialDir [Port] [Baudrate]");
