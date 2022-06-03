@@ -1,6 +1,6 @@
 # CCDP User Application Interface
 
-When running a user .BIN program, CCDP simply copies the contents of the file directly into 0x0200 of memory. There is no stat or relocation anywhere in the binaries, so one can expect anything in that file to show up directly into memory. Checkk out build.sh to see in detail how binaries are built.
+When running a user .BIN program, CCDP simply copies the contents of the file directly into 0x0200 of memory. There is no stat or relocation anywhere in the binaries, so one can expect anything in that file to show up directly into memory. Check out build.sh to see in detail how binaries are built.
 
 CCDP gives user programs a small set of system calls to reduce the compexity of doing common tasks. In order to interface with these functions, the following should be included in the assembly source:
 
