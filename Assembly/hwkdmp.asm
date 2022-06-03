@@ -208,6 +208,17 @@ readsect:
 	bz		write
 	
 	; Error handler code
+	; RTZ
+	clr		a
+	st		a,(0xF141)
+	ld		al,3
+	jsr		hawkcmd
+	bnz		hawkerr_t
+	
+	; Seek to cylinder again
+	jsr		getaddr
+	st		b,(0xF141)
+	jsr		hawkseek
 	jmp		readsect
 	
 ; Read file condition
@@ -334,7 +345,7 @@ hawkseek_s:
 ; --- STRINGS ---
 
 str_hello:
-	.ascii "HAWK DRIVE DUMP UTILITY V0.1.1"
+	.ascii "HAWK DRIVE DUMP UTILITY V0.1.2"
 	.byte	0x00
 str_crlf:
 	.byte	0x0D,0x0A,0x00

@@ -22,33 +22,33 @@
 1 0000 :                         ;	Program starts at 0x0200
 1 0000 :                         	
 1 0000 :                         ; --- TEXT ---
-1 0000 : D0 01 F8                	ld		b,str_hello
+1 0000 : D0 02 0C                	ld		b,str_hello
 1 0003 : 79 01 0C                	jsr		tty_puts
 1 0006 :                         	
 1 0006 :                         config:
 1 0006 :                         	; Get file name
-1 0006 : D0 02 1A                	ld		b,str_file
+1 0006 : D0 02 2E                	ld		b,str_file
 1 0009 : 79 01 0C                	jsr		tty_puts
-1 000C : D0 03 1F                	ld		b,output
+1 000C : D0 03 33                	ld		b,output
 1 000F : 80 0D                   	ld		al,13
 1 0011 : 79 01 12                	jsr		tty_gets
 1 0014 :                         	
 1 0014 :                         getunit:
 1 0014 :                         	; Get unit #
-1 0014 : D0 02 2F                	ld		b,str_unit
+1 0014 : D0 02 43                	ld		b,str_unit
 1 0017 : 79 01 0C                	jsr		tty_puts
-1 001A : D0 03 18                	ld		b,single_buffer
+1 001A : D0 03 2C                	ld		b,single_buffer
 1 001D : 80 01                   	ld		al,1
 1 001F : 79 01 12                	jsr		tty_gets
-1 0022 : D1 03 17                	ld		b,(single_buffer_h)
+1 0022 : D1 03 2B                	ld		b,(single_buffer_h)
 1 0025 : 79 01 2A                	jsr		gen_htoi
-1 0028 : A1 03 2F                	st		al,(unit)
+1 0028 : A1 03 43                	st		al,(unit)
 1 002B :                         	
 1 002B :                         	; check
 1 002B : C0 08                   	ld		bl,8
 1 002D : 49                      	sub		al,bl
 1 002E : 16 09                   	bm		getcyl
-1 0030 : D0 02 3E                	ld		b,str_uniterr
+1 0030 : D0 02 52                	ld		b,str_uniterr
 1 0033 : 79 01 0C                	jsr		tty_puts
 1 0036 : 71 00 14                	jmp		getunit
 1 0039 :                         	
@@ -56,51 +56,51 @@
 1 0039 :                         	
 1 0039 :                         	; Get cylinder
 1 0039 :                         getcyl:
-1 0039 : D0 02 4B                	ld		b,str_cyl
+1 0039 : D0 02 5F                	ld		b,str_cyl
 1 003C : 79 01 0C                	jsr		tty_puts
-1 003F : D0 03 1A                	ld		b,quad_buffer
+1 003F : D0 03 2E                	ld		b,quad_buffer
 1 0042 : 80 04                   	ld		al,4
 1 0044 : 79 01 12                	jsr		tty_gets
-1 0047 : D1 03 1A                	ld		b,(quad_buffer)
+1 0047 : D1 03 2E                	ld		b,(quad_buffer)
 1 004A : 79 01 2A                	jsr		gen_htoi
-1 004D : A1 03 30                	st		al,(cylinder)
-1 0050 : D1 03 1C                	ld		b,(quad_buffer+2)
+1 004D : A1 03 44                	st		al,(cylinder)
+1 0050 : D1 03 30                	ld		b,(quad_buffer+2)
 1 0053 : 79 01 2A                	jsr		gen_htoi
-1 0056 : A1 03 31                	st		al,(cylinder+1)
+1 0056 : A1 03 45                	st		al,(cylinder+1)
 1 0059 :                         	
-1 0059 : 91 03 30                	ld		a,(cylinder)
+1 0059 : 91 03 44                	ld		a,(cylinder)
 1 005C : 16 06                   	bm		cylerr
 1 005E : D0 01 96                	ld		b,406
 1 0061 : 59                      	sub		a,b
 1 0062 : 16 09                   	bm		getready
 1 0064 :                         cylerr:
-1 0064 : D0 02 6A                	ld		b,str_cylerr
+1 0064 : D0 02 7E                	ld		b,str_cylerr
 1 0067 : 79 01 0C                	jsr		tty_puts
 1 006A : 71 00 39                	jmp		getcyl
 1 006D :                         
 1 006D :                         	
 1 006D :                         getready:
-1 006D : D0 02 7B                	ld		b,str_ready
+1 006D : D0 02 8F                	ld		b,str_ready
 1 0070 : 79 01 0C                	jsr		tty_puts
-1 0073 : D0 03 18                	ld		b,single_buffer
+1 0073 : D0 03 2C                	ld		b,single_buffer
 1 0076 : 80 01                   	ld		al,1
 1 0078 : 79 01 12                	jsr		tty_gets
-1 007B : 81 03 18                	ld		al,(single_buffer)
+1 007B : 81 03 2C                	ld		al,(single_buffer)
 1 007E : C0 59                   	ld		bl,'Y'
 1 0080 : 49                      	sub		al,bl
 1 0081 : 15 83                   	bnz		config
 1 0083 :                         	
 1 0083 :                         	; Make the file
-1 0083 : D0 03 1F                	ld		b,output
+1 0083 : D0 03 33                	ld		b,output
 1 0086 : 79 01 15                	jsr		fs_open
 1 0089 : 43 11                   	ori		al,al
 1 008B : 17 06                   	bp		skipmake
-1 008D : D0 03 1F                	ld		b,output
+1 008D : D0 03 33                	ld		b,output
 1 0090 : 79 01 1B                	jsr		fs_make
 1 0093 :                         skipmake:
 1 0093 :                         
 1 0093 :                         	; Select the unit
-1 0093 : 81 03 2F                	ld		al,(unit)
+1 0093 : 81 03 43                	ld		al,(unit)
 1 0096 : A1 F1 40                	st		al,(0xF140)
 1 0099 : 91 F1 44                	ld		a,(0xF144)
 1 009C : D0 00 10                	ld		b,0x0010
@@ -108,7 +108,7 @@
 1 00A1 : 14 24                   	bz		hawkerr_t
 1 00A3 :                         	
 1 00A3 :                         	; Finish init
-1 00A3 : D0 03 35                	ld		b,heap
+1 00A3 : D0 03 49                	ld		b,heap
 1 00A6 : 55 26                   	xfr		b,y
 1 00A8 : D0 02 00                	ld		b,512
 1 00AB : 2A                      	clr		al
@@ -117,45 +117,45 @@
 1 00AD : A5 61                   	st		al,(y+)
 1 00AF : 31 20                   	dcr		b
 1 00B1 : 15 FA                   	bnz		clear
-1 00B3 : D0 02 95                	ld		b,str_starting
+1 00B3 : D0 02 A9                	ld		b,str_starting
 1 00B6 : 79 01 0C                	jsr		tty_puts
 1 00B9 :                         	
 1 00B9 :                         	; RTZ
 1 00B9 : 3A                      	clr		a
 1 00BA : B1 F1 41                	st		a,(0xF141)
 1 00BD : 80 03                   	ld		al,3
-1 00BF : 79 01 C6                	jsr		hawkcmd
+1 00BF : 79 01 DA                	jsr		hawkcmd
 1 00C2 : 15 03                   	bnz		hawkerr_t
 1 00C4 :                         	
 1 00C4 : 71 00 D3                	jmp		dumpcyl
 1 00C7 :                         	
 1 00C7 :                         hawkerr_t:
-1 00C7 : 71 01 A1                	jmp		hawkerr
+1 00C7 : 71 01 B5                	jmp		hawkerr
 1 00CA :                         	
 1 00CA :                         ; File error
 1 00CA :                         filerr:
-1 00CA : D0 03 06                	ld		b,str_filerr
+1 00CA : D0 03 1A                	ld		b,str_filerr
 1 00CD : 79 01 0C                	jsr		tty_puts
 1 00D0 : 71 01 00                	jmp		sys_done
 1 00D3 :                         	
 1 00D3 :                         ; Dumps a cylinder
 1 00D3 :                         dumpcyl:
 1 00D3 :                         	; Print out current cylinder
-1 00D3 : D0 02 C1                	ld		b,str_cylstat
+1 00D3 : D0 02 D5                	ld		b,str_cylstat
 1 00D6 : 79 01 0C                	jsr		tty_puts
-1 00D9 : D1 03 30                	ld		b,(cylinder)
+1 00D9 : D1 03 44                	ld		b,(cylinder)
 1 00DC : 79 01 09                	jsr		tty_putw
 1 00DF : C0 20                   	ld		bl,' '
 1 00E1 : 79 01 03                	jsr		tty_putc
 1 00E4 :                         
 1 00E4 :                         	; Reset sector counter
 1 00E4 : 2A                      	clr		al
-1 00E5 : A1 03 32                	st		al,(sector)
+1 00E5 : A1 03 46                	st		al,(sector)
 1 00E8 :                         	
 1 00E8 :                         	; Seek to cylinder
-1 00E8 : 79 01 B0                	jsr		getaddr
+1 00E8 : 79 01 C4                	jsr		getaddr
 1 00EB : F1 F1 41                	st		b,(0xF141)
-1 00EE : 79 01 D3                	jsr		hawkseek
+1 00EE : 79 01 E7                	jsr		hawkseek
 1 00F1 :                         	
 1 00F1 :                         	; Open file
 1 00F1 : C0 06                   	ld		bl,6
@@ -163,7 +163,7 @@
 1 00F5 :                         open:
 1 00F5 : 21 90                   	dcr		zl
 1 00F7 : 14 D1                   	bz		filerr
-1 00F9 : D0 03 1F                	ld		b,output
+1 00F9 : D0 03 33                	ld		b,output
 1 00FC : 79 01 15                	jsr		fs_open
 1 00FF : 43 11                   	ori		al,al
 1 0101 : 16 F2                   	bm		open
@@ -182,284 +182,295 @@
 1 0111 : C0 20                   	ld		bl,' '
 1 0113 : 49                      	sub		al,bl
 1 0114 : 15 06                   	bnz		readsect
-1 0116 : D0 02 F8                	ld		b,str_inter
+1 0116 : D0 03 0C                	ld		b,str_inter
 1 0119 : 71 01 0C                	jmp		tty_puts
 1 011C :                         
 1 011C :                         readsect:
 1 011C :                         	; Check read counts
 1 011C : 21 90                   	dcr		zl
-1 011E : 14 1E                   	bz		readfail
+1 011E : 14 32                   	bz		readfail
 1 0120 :                         
 1 0120 :                         	; Read from disk
-1 0120 : 79 01 B0                	jsr		getaddr
+1 0120 : 79 01 C4                	jsr		getaddr
 1 0123 : F1 F1 41                	st		b,(0xF141)
 1 0126 :                         	
 1 0126 :                         	; DMA stuff
 1 0126 : 2F 04                   	.byte	0x2F,0x04	; dma_set_mode 0
 1 0128 : 2F 06                   	.byte	0x2F,0x06	; dma_enable
-1 012A : 90 03 35                	ld		a,heap
+1 012A : 90 03 49                	ld		a,heap
 1 012D : 2F 00                   	.byte	0x2F,0x00	; dma_load_addr A
 1 012F : 90 FE 6F                	ld		a,0xFE6F
 1 0132 : 2F 02                   	.byte	0x2F,0x02	; dma_load_count A
 1 0134 :                         	
 1 0134 :                         	; Call hawk command
 1 0134 : 80 00                   	ld		al,0
-1 0136 : 79 01 C6                	jsr		hawkcmd
-1 0139 : 14 0B                   	bz		write
+1 0136 : 79 01 DA                	jsr		hawkcmd
+1 0139 : 14 1F                   	bz		write
 1 013B :                         	
 1 013B :                         	; Error handler code
-1 013B : 71 01 1C                	jmp		readsect
-1 013E :                         	
-1 013E :                         ; Read file condition
-1 013E :                         readfail:
-1 013E : C0 58                   	ld		bl,'X'
-1 0140 : 79 01 03                	jsr		tty_putc
-1 0143 : 71 01 78                	jmp		nextsect
+1 013B :                         	; RTZ
+1 013B : 3A                      	clr		a
+1 013C : B1 F1 41                	st		a,(0xF141)
+1 013F : 80 03                   	ld		al,3
+1 0141 : 79 01 DA                	jsr		hawkcmd
+1 0144 : 15 81                   	bnz		hawkerr_t
 1 0146 :                         	
-1 0146 :                         	
-1 0146 :                         write:
-1 0146 :                         	; Write to file
-1 0146 : C0 06                   	ld		bl,6
-1 0148 : 45 39                   	xfr		bl,zl
-1 014A :                         write_a:
-1 014A : 21 90                   	dcr		zl
-1 014C : 14 50                   	bz		filerr_t
-1 014E : 91 03 33                	ld		a,(address)
-1 0151 : 3D                      	slr		a
-1 0152 : D1 03 35                	ld		b,(heap)
-1 0155 : 79 01 27                	jsr		fs_write
-1 0158 : 43 11                   	ori		al,al
-1 015A : 16 EE                   	bm		write_a
-1 015C :                         	
-1 015C : C0 06                   	ld		bl,6
-1 015E : 45 39                   	xfr		bl,zl
-1 0160 :                         write_b:
-1 0160 : 21 90                   	dcr		zl
-1 0162 : 14 3A                   	bz		filerr_t
-1 0164 : 91 03 33                	ld		a,(address)
-1 0167 : 3D                      	slr		a
-1 0168 : 38                      	inr		a
-1 0169 : D1 04 35                	ld		b,(heap+256)
-1 016C : 79 01 27                	jsr		fs_write
-1 016F : 43 11                   	ori		al,al
-1 0171 : 16 ED                   	bm		write_b
-1 0173 :                         	
-1 0173 : C0 2E                   	ld		bl,'.'
-1 0175 : 79 01 03                	jsr		tty_putc
-1 0178 :                         	
-1 0178 :                         ; Increment sector
-1 0178 :                         nextsect:
-1 0178 : 81 03 32                	ld		al,(sector)
-1 017B : C0 20                   	ld		bl,32
-1 017D : 28                      	inr		al
-1 017E : 49                      	sub		al,bl
-1 017F : 14 06                   	bz		nextcyl
-1 0181 : A1 03 32                	st		al,(sector)
-1 0184 : 71 01 03                	jmp		dumpsect
+1 0146 :                         	; Seek to cylinder again
+1 0146 : 79 01 C4                	jsr		getaddr
+1 0149 : F1 F1 41                	st		b,(0xF141)
+1 014C : 79 01 E7                	jsr		hawkseek
+1 014F : 71 01 1C                	jmp		readsect
+1 0152 :                         	
+1 0152 :                         ; Read file condition
+1 0152 :                         readfail:
+1 0152 : C0 58                   	ld		bl,'X'
+1 0154 : 79 01 03                	jsr		tty_putc
+1 0157 : 71 01 8C                	jmp		nextsect
+1 015A :                         	
+1 015A :                         	
+1 015A :                         write:
+1 015A :                         	; Write to file
+1 015A : C0 06                   	ld		bl,6
+1 015C : 45 39                   	xfr		bl,zl
+1 015E :                         write_a:
+1 015E : 21 90                   	dcr		zl
+1 0160 : 14 50                   	bz		filerr_t
+1 0162 : 91 03 47                	ld		a,(address)
+1 0165 : 3D                      	slr		a
+1 0166 : D1 03 49                	ld		b,(heap)
+1 0169 : 79 01 27                	jsr		fs_write
+1 016C : 43 11                   	ori		al,al
+1 016E : 16 EE                   	bm		write_a
+1 0170 :                         	
+1 0170 : C0 06                   	ld		bl,6
+1 0172 : 45 39                   	xfr		bl,zl
+1 0174 :                         write_b:
+1 0174 : 21 90                   	dcr		zl
+1 0176 : 14 3A                   	bz		filerr_t
+1 0178 : 91 03 47                	ld		a,(address)
+1 017B : 3D                      	slr		a
+1 017C : 38                      	inr		a
+1 017D : D1 04 49                	ld		b,(heap+256)
+1 0180 : 79 01 27                	jsr		fs_write
+1 0183 : 43 11                   	ori		al,al
+1 0185 : 16 ED                   	bm		write_b
 1 0187 :                         	
-1 0187 :                         nextcyl:
-1 0187 : 91 03 30                	ld		a,(cylinder)
-1 018A : D0 01 96                	ld		b,406
-1 018D : 38                      	inr		a
-1 018E : 59                      	sub		a,b
-1 018F : 14 06                   	bz		done
-1 0191 : B1 03 30                	st		a,(cylinder)
-1 0194 : 71 00 D3                	jmp		dumpcyl
-1 0197 :                         	
-1 0197 :                         	
-1 0197 :                         done:
-1 0197 : D0 02 CE                	ld		b,str_done
-1 019A : 79 01 0C                	jsr		tty_puts
-1 019D :                         		
-1 019D :                         	; Exit
-1 019D : 09                      	rsr
-1 019E :                         	
-1 019E :                         	; File error tramp
-1 019E :                         filerr_t:
-1 019E : 71 00 CA                	jmp		filerr
-1 01A1 :                         	
-1 01A1 :                         ; Hawk drive error
-1 01A1 :                         hawkerr:
-1 01A1 : D0 02 DE                	ld		b,str_hwkerr
-1 01A4 : 79 01 0C                	jsr		tty_puts
-1 01A7 : D1 F1 44                	ld		b,(0xF144)
-1 01AA : 79 01 09                	jsr		tty_putw
-1 01AD : 71 01 00                	jmp		sys_done
-1 01B0 :                         	
-1 01B0 :                         ; Gets the current address
-1 01B0 :                         getaddr:
-1 01B0 : D1 03 30                	ld		b,(cylinder)
-1 01B3 : 35 20                   	slr		b
-1 01B5 : 35 20                   	slr		b
-1 01B7 : 35 20                   	slr		b
-1 01B9 : 35 20                   	slr		b
-1 01BB : 35 20                   	slr		b
-1 01BD : 81 03 32                	ld		al,(sector)
-1 01C0 : 43 13                   	ori		al,bl
-1 01C2 : F1 03 33                	st		b,(address)
-1 01C5 : 09                      	rsr
-1 01C6 :                         
-1 01C6 :                         	
-1 01C6 :                         ; Executes a hawk command
-1 01C6 :                         ; AL = Hawk command
-1 01C6 :                         hawkcmd:
-1 01C6 : A1 F1 48                	st		al,(0xF148)
-1 01C9 :                         hawkcmd_w:
-1 01C9 : 81 F1 44                	ld		al,(0xF144)
-1 01CC : 2C                      	srr		al
-1 01CD : 10 FA                   	bl		hawkcmd_w
-1 01CF : 81 F1 44                	ld		al,(0xF144)
-1 01D2 : 09                      	rsr
-1 01D3 :                         	
-1 01D3 :                         hawkseek:
-1 01D3 : 80 02                   	ld		al,2
-1 01D5 : A1 F1 48                	st		al,(0xF148)
-1 01D8 : 90 01 90                	ld		a,0x0190
-1 01DB :                         hawkseek_l:
-1 01DB : D0 20 00                	ld		b,0x2000
-1 01DE : C1 F1 45                	ld		bl,(0xF145)
-1 01E1 : 42 23                   	and		bh,bl
-1 01E3 : 15 0D                   	bnz		hawkseek_s
-1 01E5 : 0E                      	dly
-1 01E6 : 39                      	dcr		a
-1 01E7 : 15 F2                   	bnz		hawkseek_l
-1 01E9 : D0 02 EC                	ld		b,str_timeout
-1 01EC : 79 01 0C                	jsr		tty_puts
-1 01EF : 71 01 00                	jmp		sys_done
-1 01F2 :                         hawkseek_s:
-1 01F2 : 81 F1 44                	ld		al,(0xF144)
-1 01F5 : 15 AA                   	bnz		hawkerr
-1 01F7 : 09                      	rsr
-1 01F8 :                         	
-1 01F8 :                         ; --- STRINGS ---
-1 01F8 :                         
-1 01F8 :                         str_hello:
-1 01F8 : 48 41 57 4B 20 44 52 49 	.ascii "HAWK DRIVE DUMP UTILITY V0.1.1"
-1 0201 : 56 45 20 44 55 4D 50 20 ...
-1 0209 : 55 54 49 4C 49 54 59 20 ...
-1 0211 : 56 30 2E 31 2E 31       ...
-1 0216 : 00                      	.byte	0x00
-1 0217 :                         str_crlf:
-1 0217 : 0D 0A 00                	.byte	0x0D,0x0A,0x00
-1 021A :                         	
-1 021A :                         str_file:
-1 021A : 0D 0A                   	.byte	0x0D,0x0A
-1 021C : 4F 55 54 50 55 54 20 46 	.ascii "OUTPUT FILE NAME? "
-1 0225 : 49 4C 45 20 4E 41 4D 45 ...
-1 022D : 3F 20                   ...
-1 022E : 00                      	.byte	0x00
-1 022F :                         	
-1 022F :                         str_unit:
-1 022F : 0D 0A                   	.byte	0x0D,0x0A
-1 0231 : 55 4E 49 54 20 23 20 28 	.ascii "UNIT # (X)? "
-1 023A : 58 29 3F 20             ...
-1 023D : 00                      	.byte	0x00
-1 023E :                         	
-1 023E :                         str_uniterr:
-1 023E : 0D 0A                   	.byte	0x0D,0x0A
-1 0240 : 42 41 44 20 55 4E 49 54 	.ascii "BAD UNIT"
-1 0248 : 0D 0A 00                	.byte	0x0D,0x0A,0x00
-1 024B :                         	
-1 024B :                         str_cyl:
-1 024B : 0D 0A                   	.byte	0x0D,0x0A
-1 024D : 53 54 41 52 54 49 4E 47 	.ascii "STARTING CYLINDER # (XXXX)? "
-1 0256 : 20 43 59 4C 49 4E 44 45 ...
-1 025E : 52 20 23 20 28 58 58 58 ...
-1 0266 : 58 29 3F 20             ...
-1 0269 : 00                      	.byte	0x00
-1 026A :                         	
-1 026A :                         str_cylerr:
-1 026A : 0D 0A                   	.byte	0x0D,0x0A
-1 026C : 42 41 44 20 43 59 4C 49 	.ascii "BAD CYLINDER"
-1 0275 : 4E 44 45 52             ...
-1 0278 : 0D 0A 00                	.byte	0x0D,0x0A,0x00
-1 027B :                         	
-1 027B :                         str_ready:
-1 027B : 0D 0A                   	.byte	0x0D,0x0A
-1 027D : 52 45 41 44 59 20 54 4F 	.ascii "READY TO BEGIN? (Y/N)? "
-1 0286 : 20 42 45 47 49 4E 3F 20 ...
-1 028E : 28 59 2F 4E 29 3F 20    ...
-1 0294 : 00                      	.byte	0x00
-1 0295 :                         	
-1 0295 :                         str_starting:
-1 0295 : 0D 0A                   	.byte	0x0D,0x0A
-1 0297 : 53 54 41 52 54 49 4E 47 	.ascii "STARTING DUMP"
-1 02A0 : 20 44 55 4D 50          ...
-1 02A4 : 0D 0A                   	.byte	0x0D,0x0A
-1 02A6 : 50 52 45 53 53 20 5B 53 	.ascii "PRESS [SPACE] TO INTERRUPT"
-1 02AF : 50 41 43 45 5D 20 54 4F ...
-1 02B7 : 20 49 4E 54 45 52 52 55 ...
-1 02BF : 50 54                   ...
-1 02C0 : 00                      	.byte	0x00
-1 02C1 :                         	
-1 02C1 :                         str_cylstat:
-1 02C1 : 0D 0A                   	.byte	0x0D,0x0A
-1 02C3 : 43 59 4C 49 4E 44 45 52 	.ascii "CYLINDER #"
-1 02CC : 20 23                   ...
-1 02CD : 00                      	.byte	0x00
-1 02CE :                         	
-1 02CE :                         str_done:
-1 02CE : 0D 0A                   	.byte	0x0D,0x0A
-1 02D0 : 44 55 4D 50 20 43 4F 4D 	.ascii "DUMP COMPLETE"
-1 02D9 : 50 4C 45 54 45          ...
-1 02DD : 00                      	.byte	0x00
-1 02DE :                         	
-1 02DE :                         str_hwkerr:
-1 02DE : 0D 0A                   	.byte	0x0D,0x0A
-1 02E0 : 48 41 57 4B 20 45 52 52 	.ascii "HAWK ERROR "
-1 02E9 : 4F 52 20                ...
-1 02EB : 00                      	.byte	0x00
-1 02EC :                         	
-1 02EC :                         str_timeout:
-1 02EC : 0D 0A                   	.byte	0x0D,0x0A
-1 02EE : 54 49 4D 45 44 20 4F 55 	.ascii "TIMED OUT"
-1 02F7 : 54                      ...
-1 02F7 : 00                      	.byte	0x00
-1 02F8 :                         	
-1 02F8 :                         str_inter:
-1 02F8 : 0D 0A                   	.byte	0x0D,0x0A
-1 02FA : 49 4E 54 45 52 52 55 50 	.ascii "INTERRUPTED"
-1 0303 : 54 45 44                ...
-1 0305 : 00                      	.byte	0x00
-1 0306 :                         	
-1 0306 :                         str_filerr:
-1 0306 : 0D 0A                   	.byte	0x0D,0x0A
-1 0308 : 46 49 4C 45 20 49 2F 4F 	.ascii "FILE I/O ERROR"
-1 0311 : 20 45 52 52 4F 52       ...
-1 0316 : 00                      	.byte	0x00
-1 0317 :                         	
-1 0317 :                         	
-1 0317 :                         ; --- VARIABLES ---
-1 0317 :                         
-1 0317 :                         ; Input buffers
-1 0317 :                         single_buffer_h:
-1 0317 : 30                      	.ascii	"0"
-1 0318 :                         single_buffer:
-1 0318 : 30                      	.ascii	"0"
-1 0319 : 00                      	.byte	0x0 
-1 031A :                         
-1 031A :                         quad_buffer:
-1 031A : 30 30 30 30             	.ascii	"0000"
-1 031E : 00                      	.byte	0x0 
-1 031F :                         	
-1 031F :                         ; Output filename
-1 031F :                         
-1 031F :                         output:
-1 031F : 58 58 58 58 58 58 58 58 	.ascii "XXXXXXXXXXXXXXXX"
-1 0328 : 58 58 58 58 58 58 58 58 ...
-1 032F :                         
-1 032F :                         ; Positioning variables
-1 032F :                         
-1 032F :                         unit:
-1 032F : 00                      	.byte 	0x00
-1 0330 :                         
-1 0330 :                         cylinder:
-1 0330 : 00 00                   	.byte	0x00,0x00
-1 0332 :                         	
-1 0332 :                         sector:
-1 0332 : 00                      	.byte	0x00
+1 0187 : C0 2E                   	ld		bl,'.'
+1 0189 : 79 01 03                	jsr		tty_putc
+1 018C :                         	
+1 018C :                         ; Increment sector
+1 018C :                         nextsect:
+1 018C : 81 03 46                	ld		al,(sector)
+1 018F : C0 20                   	ld		bl,32
+1 0191 : 28                      	inr		al
+1 0192 : 49                      	sub		al,bl
+1 0193 : 14 06                   	bz		nextcyl
+1 0195 : A1 03 46                	st		al,(sector)
+1 0198 : 71 01 03                	jmp		dumpsect
+1 019B :                         	
+1 019B :                         nextcyl:
+1 019B : 91 03 44                	ld		a,(cylinder)
+1 019E : D0 01 96                	ld		b,406
+1 01A1 : 38                      	inr		a
+1 01A2 : 59                      	sub		a,b
+1 01A3 : 14 06                   	bz		done
+1 01A5 : B1 03 44                	st		a,(cylinder)
+1 01A8 : 71 00 D3                	jmp		dumpcyl
+1 01AB :                         	
+1 01AB :                         	
+1 01AB :                         done:
+1 01AB : D0 02 E2                	ld		b,str_done
+1 01AE : 79 01 0C                	jsr		tty_puts
+1 01B1 :                         		
+1 01B1 :                         	; Exit
+1 01B1 : 09                      	rsr
+1 01B2 :                         	
+1 01B2 :                         	; File error tramp
+1 01B2 :                         filerr_t:
+1 01B2 : 71 00 CA                	jmp		filerr
+1 01B5 :                         	
+1 01B5 :                         ; Hawk drive error
+1 01B5 :                         hawkerr:
+1 01B5 : D0 02 F2                	ld		b,str_hwkerr
+1 01B8 : 79 01 0C                	jsr		tty_puts
+1 01BB : D1 F1 44                	ld		b,(0xF144)
+1 01BE : 79 01 09                	jsr		tty_putw
+1 01C1 : 71 01 00                	jmp		sys_done
+1 01C4 :                         	
+1 01C4 :                         ; Gets the current address
+1 01C4 :                         getaddr:
+1 01C4 : D1 03 44                	ld		b,(cylinder)
+1 01C7 : 35 20                   	slr		b
+1 01C9 : 35 20                   	slr		b
+1 01CB : 35 20                   	slr		b
+1 01CD : 35 20                   	slr		b
+1 01CF : 35 20                   	slr		b
+1 01D1 : 81 03 46                	ld		al,(sector)
+1 01D4 : 43 13                   	ori		al,bl
+1 01D6 : F1 03 47                	st		b,(address)
+1 01D9 : 09                      	rsr
+1 01DA :                         
+1 01DA :                         	
+1 01DA :                         ; Executes a hawk command
+1 01DA :                         ; AL = Hawk command
+1 01DA :                         hawkcmd:
+1 01DA : A1 F1 48                	st		al,(0xF148)
+1 01DD :                         hawkcmd_w:
+1 01DD : 81 F1 44                	ld		al,(0xF144)
+1 01E0 : 2C                      	srr		al
+1 01E1 : 10 FA                   	bl		hawkcmd_w
+1 01E3 : 81 F1 44                	ld		al,(0xF144)
+1 01E6 : 09                      	rsr
+1 01E7 :                         	
+1 01E7 :                         hawkseek:
+1 01E7 : 80 02                   	ld		al,2
+1 01E9 : A1 F1 48                	st		al,(0xF148)
+1 01EC : 90 01 90                	ld		a,0x0190
+1 01EF :                         hawkseek_l:
+1 01EF : D0 20 00                	ld		b,0x2000
+1 01F2 : C1 F1 45                	ld		bl,(0xF145)
+1 01F5 : 42 23                   	and		bh,bl
+1 01F7 : 15 0D                   	bnz		hawkseek_s
+1 01F9 : 0E                      	dly
+1 01FA : 39                      	dcr		a
+1 01FB : 15 F2                   	bnz		hawkseek_l
+1 01FD : D0 03 00                	ld		b,str_timeout
+1 0200 : 79 01 0C                	jsr		tty_puts
+1 0203 : 71 01 00                	jmp		sys_done
+1 0206 :                         hawkseek_s:
+1 0206 : 81 F1 44                	ld		al,(0xF144)
+1 0209 : 15 AA                   	bnz		hawkerr
+1 020B : 09                      	rsr
+1 020C :                         	
+1 020C :                         ; --- STRINGS ---
+1 020C :                         
+1 020C :                         str_hello:
+1 020C : 48 41 57 4B 20 44 52 49 	.ascii "HAWK DRIVE DUMP UTILITY V0.1.2"
+1 0215 : 56 45 20 44 55 4D 50 20 ...
+1 021D : 55 54 49 4C 49 54 59 20 ...
+1 0225 : 56 30 2E 31 2E 32       ...
+1 022A : 00                      	.byte	0x00
+1 022B :                         str_crlf:
+1 022B : 0D 0A 00                	.byte	0x0D,0x0A,0x00
+1 022E :                         	
+1 022E :                         str_file:
+1 022E : 0D 0A                   	.byte	0x0D,0x0A
+1 0230 : 4F 55 54 50 55 54 20 46 	.ascii "OUTPUT FILE NAME? "
+1 0239 : 49 4C 45 20 4E 41 4D 45 ...
+1 0241 : 3F 20                   ...
+1 0242 : 00                      	.byte	0x00
+1 0243 :                         	
+1 0243 :                         str_unit:
+1 0243 : 0D 0A                   	.byte	0x0D,0x0A
+1 0245 : 55 4E 49 54 20 23 20 28 	.ascii "UNIT # (X)? "
+1 024E : 58 29 3F 20             ...
+1 0251 : 00                      	.byte	0x00
+1 0252 :                         	
+1 0252 :                         str_uniterr:
+1 0252 : 0D 0A                   	.byte	0x0D,0x0A
+1 0254 : 42 41 44 20 55 4E 49 54 	.ascii "BAD UNIT"
+1 025C : 0D 0A 00                	.byte	0x0D,0x0A,0x00
+1 025F :                         	
+1 025F :                         str_cyl:
+1 025F : 0D 0A                   	.byte	0x0D,0x0A
+1 0261 : 53 54 41 52 54 49 4E 47 	.ascii "STARTING CYLINDER # (XXXX)? "
+1 026A : 20 43 59 4C 49 4E 44 45 ...
+1 0272 : 52 20 23 20 28 58 58 58 ...
+1 027A : 58 29 3F 20             ...
+1 027D : 00                      	.byte	0x00
+1 027E :                         	
+1 027E :                         str_cylerr:
+1 027E : 0D 0A                   	.byte	0x0D,0x0A
+1 0280 : 42 41 44 20 43 59 4C 49 	.ascii "BAD CYLINDER"
+1 0289 : 4E 44 45 52             ...
+1 028C : 0D 0A 00                	.byte	0x0D,0x0A,0x00
+1 028F :                         	
+1 028F :                         str_ready:
+1 028F : 0D 0A                   	.byte	0x0D,0x0A
+1 0291 : 52 45 41 44 59 20 54 4F 	.ascii "READY TO BEGIN? (Y/N)? "
+1 029A : 20 42 45 47 49 4E 3F 20 ...
+1 02A2 : 28 59 2F 4E 29 3F 20    ...
+1 02A8 : 00                      	.byte	0x00
+1 02A9 :                         	
+1 02A9 :                         str_starting:
+1 02A9 : 0D 0A                   	.byte	0x0D,0x0A
+1 02AB : 53 54 41 52 54 49 4E 47 	.ascii "STARTING DUMP"
+1 02B4 : 20 44 55 4D 50          ...
+1 02B8 : 0D 0A                   	.byte	0x0D,0x0A
+1 02BA : 50 52 45 53 53 20 5B 53 	.ascii "PRESS [SPACE] TO INTERRUPT"
+1 02C3 : 50 41 43 45 5D 20 54 4F ...
+1 02CB : 20 49 4E 54 45 52 52 55 ...
+1 02D3 : 50 54                   ...
+1 02D4 : 00                      	.byte	0x00
+1 02D5 :                         	
+1 02D5 :                         str_cylstat:
+1 02D5 : 0D 0A                   	.byte	0x0D,0x0A
+1 02D7 : 43 59 4C 49 4E 44 45 52 	.ascii "CYLINDER #"
+1 02E0 : 20 23                   ...
+1 02E1 : 00                      	.byte	0x00
+1 02E2 :                         	
+1 02E2 :                         str_done:
+1 02E2 : 0D 0A                   	.byte	0x0D,0x0A
+1 02E4 : 44 55 4D 50 20 43 4F 4D 	.ascii "DUMP COMPLETE"
+1 02ED : 50 4C 45 54 45          ...
+1 02F1 : 00                      	.byte	0x00
+1 02F2 :                         	
+1 02F2 :                         str_hwkerr:
+1 02F2 : 0D 0A                   	.byte	0x0D,0x0A
+1 02F4 : 48 41 57 4B 20 45 52 52 	.ascii "HAWK ERROR "
+1 02FD : 4F 52 20                ...
+1 02FF : 00                      	.byte	0x00
+1 0300 :                         	
+1 0300 :                         str_timeout:
+1 0300 : 0D 0A                   	.byte	0x0D,0x0A
+1 0302 : 54 49 4D 45 44 20 4F 55 	.ascii "TIMED OUT"
+1 030B : 54                      ...
+1 030B : 00                      	.byte	0x00
+1 030C :                         	
+1 030C :                         str_inter:
+1 030C : 0D 0A                   	.byte	0x0D,0x0A
+1 030E : 49 4E 54 45 52 52 55 50 	.ascii "INTERRUPTED"
+1 0317 : 54 45 44                ...
+1 0319 : 00                      	.byte	0x00
+1 031A :                         	
+1 031A :                         str_filerr:
+1 031A : 0D 0A                   	.byte	0x0D,0x0A
+1 031C : 46 49 4C 45 20 49 2F 4F 	.ascii "FILE I/O ERROR"
+1 0325 : 20 45 52 52 4F 52       ...
+1 032A : 00                      	.byte	0x00
+1 032B :                         	
+1 032B :                         	
+1 032B :                         ; --- VARIABLES ---
+1 032B :                         
+1 032B :                         ; Input buffers
+1 032B :                         single_buffer_h:
+1 032B : 30                      	.ascii	"0"
+1 032C :                         single_buffer:
+1 032C : 30                      	.ascii	"0"
+1 032D : 00                      	.byte	0x0 
+1 032E :                         
+1 032E :                         quad_buffer:
+1 032E : 30 30 30 30             	.ascii	"0000"
+1 0332 : 00                      	.byte	0x0 
 1 0333 :                         	
-1 0333 :                         address:
-1 0333 : 00 00                   	.byte	0x00,0x00
-1 0335 :                         	
-1 0335 :                         heap:
+1 0333 :                         ; Output filename
+1 0333 :                         
+1 0333 :                         output:
+1 0333 : 58 58 58 58 58 58 58 58 	.ascii "XXXXXXXXXXXXXXXX"
+1 033C : 58 58 58 58 58 58 58 58 ...
+1 0343 :                         
+1 0343 :                         ; Positioning variables
+1 0343 :                         
+1 0343 :                         unit:
+1 0343 : 00                      	.byte 	0x00
+1 0344 :                         
+1 0344 :                         cylinder:
+1 0344 : 00 00                   	.byte	0x00,0x00
+1 0346 :                         	
+1 0346 :                         sector:
+1 0346 : 00                      	.byte	0x00
+1 0347 :                         	
+1 0347 :                         address:
+1 0347 : 00 00                   	.byte	0x00,0x00
+1 0349 :                         	
+1 0349 :                         heap:
