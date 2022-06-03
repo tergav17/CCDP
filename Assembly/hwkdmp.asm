@@ -119,6 +119,14 @@ clear:
 	bnz		clear
 	ld		b,str_starting
 	jsr		tty_puts
+	
+	; RTZ
+	clr		a
+	st		a,(0xF141)
+	ld		al,3
+	jsr		hawkcmd
+	bnz		hawkerr_t
+	
 	jmp		dumpcyl
 	
 hawkerr_t:
@@ -137,6 +145,8 @@ dumpcyl:
 	jsr		tty_puts
 	ld		b,(cylinder)
 	jsr		tty_putw
+	ld		bl,' '
+	jsr		tty_putc
 
 	; Reset sector counter
 	clr		al
@@ -158,7 +168,12 @@ open:
 	ori		al,al
 	bm		open
 	
+; Dumps a sector
 dumpsect:
+	; Set read retry counter
+	ld		bl,6
+	xfr		bl,zl
+
 	; Check for spacebar
 	jsr		tty_next
 	ori		al,al
@@ -171,6 +186,10 @@ dumpsect:
 	jmp		tty_puts
 
 readsect:
+	; Check read counts
+	dcr		zl
+	bz		readfail
+
 	; Read from disk
 	jsr		getaddr
 	st		b,(0xF141)
@@ -186,13 +205,25 @@ readsect:
 	; Call hawk command
 	ld		al,0
 	jsr		hawkcmd
+	bz		write
 	
+	; Error handler code
+	jmp		readsect
+	
+; Read file condition
+readfail:
+	ld		bl,'X'
+	jsr		tty_putc
+	jmp		nextsect
+	
+	
+write:
 	; Write to file
 	ld		bl,6
 	xfr		bl,zl
 write_a:
 	dcr		zl
-	bz		filerr
+	bz		filerr_t
 	ld		a,(address)
 	slr		a
 	ld		b,(heap)
@@ -204,7 +235,7 @@ write_a:
 	xfr		bl,zl
 write_b:
 	dcr		zl
-	bz		filerr
+	bz		filerr_t
 	ld		a,(address)
 	slr		a
 	inr		a
@@ -216,7 +247,8 @@ write_b:
 	ld		bl,'.'
 	jsr		tty_putc
 	
-	; Increment sector
+; Increment sector
+nextsect:
 	ld		al,(sector)
 	ld		bl,32
 	inr		al
@@ -241,6 +273,10 @@ done:
 		
 	; Exit
 	rsr
+	
+	; File error tramp
+filerr_t:
+	jmp		filerr
 	
 ; Hawk drive error
 hawkerr:
@@ -273,7 +309,6 @@ hawkcmd_w:
 	srr		al
 	bl		hawkcmd_w
 	ld		al,(0xF144)
-	bnz		hawkerr
 	rsr
 	
 hawkseek:
@@ -286,7 +321,7 @@ hawkseek_l:
 	and		bh,bl
 	bnz		hawkseek_s
 	dly
-	dcr		al
+	dcr		a
 	bnz		hawkseek_l
 	ld		b,str_timeout
 	jsr		tty_puts
@@ -299,7 +334,7 @@ hawkseek_s:
 ; --- STRINGS ---
 
 str_hello:
-	.ascii "HAWK DRIVE DUMP UTILITY V0.1.0"
+	.ascii "HAWK DRIVE DUMP UTILITY V0.1.1"
 	.byte	0x00
 str_crlf:
 	.byte	0x0D,0x0A,0x00
