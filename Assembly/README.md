@@ -22,6 +22,8 @@ fs_delete	equ 0x011E
 fs_list		equ 0x0121
 fs_read		equ 0x0124
 fs_write	equ 0x0127
+gen_htoi	equ 0x012A
+tty_next	equ 0x012D
 
 combuf		equ 0x01C0
 ```
@@ -89,6 +91,14 @@ AL = Buffer size - 1 (max number of characters)
 B = Buffer location
 
 Destroys: A, B, Y
+
+## TTY_NEXT
+
+Returns if there is a character to read or not
+
+AL = Returns 0 if no character
+
+Destroys: AL
 
 ## FS_OPEN
 
@@ -163,3 +173,13 @@ B = Source address
 AL = Returned status
 
 Destroys: A, B, Y
+
+## GEN_HTOI
+
+Converts a hex number in ASCII into a value
+
+AL = Returned value
+
+B = Hex value
+
+Destroys: A, B
