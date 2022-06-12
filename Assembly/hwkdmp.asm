@@ -127,6 +127,11 @@ clear:
 	jsr		hawkcmd
 	bnz		hawkerr_t
 	
+	; Position to track
+	jsr		getaddr
+	jsr		position
+	
+	
 	jmp		dumpcyl
 	
 hawkerr_t:
@@ -171,7 +176,7 @@ open:
 ; Dumps a sector
 dumpsect:
 	; Set read retry counter
-	ld		bl,6
+	ld		bl,3
 	xfr		bl,zl
 
 	; Check for spacebar
@@ -217,8 +222,7 @@ readsect:
 	
 	; Seek to cylinder again
 	jsr		getaddr
-	st		b,(0xF141)
-	jsr		hawkseek
+	jsr		position
 	jmp		readsect
 	
 ; Read file condition
@@ -237,7 +241,7 @@ write_a:
 	bz		filerr_t
 	ld		a,(address)
 	slr		a
-	ld		b,(heap)
+	ld		b,heap
 	jsr		fs_write
 	ori		al,al
 	bm		write_a
@@ -247,10 +251,10 @@ write_a:
 write_b:
 	dcr		zl
 	bz		filerr_t
-	ld		a,(address)
+	ld		a,(address) 
 	slr		a
 	inr		a
-	ld		b,(heap+256)
+	ld		b,heap+256
 	jsr		fs_write
 	ori		al,al
 	bm		write_b
@@ -341,11 +345,27 @@ hawkseek_s:
 	ld		al,(0xF144)
 	bnz		hawkerr
 	rsr
+
+; Slow position
+position:
+	clr		y
+position_l:
+	ld		b,(address)
+	sub		y,b
+	bm		position_s
+	rsr
+position_s:
+	xfr		y,b
+	st		b,(0xF141)
+	jsr		hawkseek
+	ld		a,8
+	add		a,y
+	jmp		position_l
 	
 ; --- STRINGS ---
 
 str_hello:
-	.ascii "HAWK DRIVE DUMP UTILITY V0.1.2"
+	.ascii "HAWK DRIVE DUMP UTILITY V0.1.7"
 	.byte	0x00
 str_crlf:
 	.byte	0x0D,0x0A,0x00
@@ -451,3 +471,4 @@ address:
 	.byte	0x00,0x00
 	
 heap:
+
