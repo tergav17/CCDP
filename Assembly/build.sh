@@ -48,6 +48,12 @@ ldwrx6 -b -C 512 -o hwkdmp.raw hwkdmp.o
 dd if=hwkdmp.raw bs=512 skip=1 of=bin/HWKDMP.BIN
 rm hwkdmp.raw hwkdmp.o
 
+aswrx6 -l listing_intprb.txt intprb.asm
+ldwrx6 -b -C 512 -o intprb.raw intprb.o
+dd if=intprb.raw bs=512 skip=1 of=bin/INTPRB.BIN
+rm intprb.raw intprb.o
+
+
 aswrx6 -l listing_bootstrap.txt bootstrap.asm
 rm bootstrap.o
 
