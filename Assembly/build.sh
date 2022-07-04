@@ -53,6 +53,10 @@ ldwrx6 -b -C 512 -o intprb.raw intprb.o
 dd if=intprb.raw bs=512 skip=1 of=bin/INTPRB.BIN
 rm intprb.raw intprb.o
 
+aswrx6 -l listing_hwkmon.txt hwkmon.asm
+ldwrx6 -b -C 512 -o hwkmon.raw hwkmon.o
+dd if=hwkmon.raw bs=512 skip=1 of=bin/HWKMON.BIN
+rm hwkmon.raw hwkmon.o
 
 aswrx6 -l listing_bootstrap.txt bootstrap.asm
 rm bootstrap.o
