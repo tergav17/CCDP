@@ -377,7 +377,7 @@ str_ready:
 	
 str_starting:
 	.byte	0x0D,0x0A
-	.ascii "STARTING DUMP"
+	.ascii "STARTING TEST"
 	.byte	0x0D,0x0A
 	.ascii "PRESS [SPACE] TO INTERRUPT"
 	.byte	0x00
@@ -389,7 +389,7 @@ str_cylstat:
 	
 str_done:
 	.byte	0x0D,0x0A
-	.ascii "DUMP COMPLETE"
+	.ascii "TEST COMPLETE"
 	.byte	0x00
 	
 str_hwkerr:

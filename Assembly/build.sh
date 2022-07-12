@@ -63,6 +63,11 @@ ldwrx6 -b -C 512 -o hwkrea.raw hwkrea.o
 dd if=hwkrea.raw bs=512 skip=1 of=bin/HWKREA.BIN
 rm hwkrea.raw hwkrea.o
 
+aswrx6 -l listing_utos.txt utos.asm
+ldwrx6 -b -C 512 -o utos.raw utos.o
+dd if=utos.raw bs=512 skip=1 of=bin/UTOS.BIN
+rm utos.raw utos.o
+
 
 aswrx6 -l listing_bootstrap.txt bootstrap.asm
 rm bootstrap.o

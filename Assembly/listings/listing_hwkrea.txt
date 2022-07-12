@@ -204,6 +204,7 @@
 1 012F : 79 01 A7                	jsr		hawkcmd
 1 0132 : 14 21                   	bz		write
 1 0134 :                         	
+1 0134 :                         	; Check if RTZ is needed
 1 0134 : 81 03 19                	ld		al,(dortz)
 1 0137 : 14 14                   	bz		readfail
 1 0139 :                         	
@@ -388,8 +389,8 @@
 1 028F :                         	
 1 028F :                         str_starting:
 1 028F : 0D 0A                   	.byte	0x0D,0x0A
-1 0291 : 53 54 41 52 54 49 4E 47 	.ascii "STARTING DUMP"
-1 029A : 20 44 55 4D 50          ...
+1 0291 : 53 54 41 52 54 49 4E 47 	.ascii "STARTING TEST"
+1 029A : 20 54 45 53 54          ...
 1 029E : 0D 0A                   	.byte	0x0D,0x0A
 1 02A0 : 50 52 45 53 53 20 5B 53 	.ascii "PRESS [SPACE] TO INTERRUPT"
 1 02A9 : 50 41 43 45 5D 20 54 4F ...
@@ -405,7 +406,7 @@
 1 02C8 :                         	
 1 02C8 :                         str_done:
 1 02C8 : 0D 0A                   	.byte	0x0D,0x0A
-1 02CA : 44 55 4D 50 20 43 4F 4D 	.ascii "DUMP COMPLETE"
+1 02CA : 54 45 53 54 20 43 4F 4D 	.ascii "TEST COMPLETE"
 1 02D3 : 50 4C 45 54 45          ...
 1 02D7 : 00                      	.byte	0x00
 1 02D8 :                         	
