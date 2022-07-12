@@ -66,6 +66,8 @@ rm hwkrea.raw hwkrea.o
 aswrx6 -l listing_utos.txt utos.asm
 ldwrx6 -b -C 512 -o utos.raw utos.o
 dd if=utos.raw bs=512 skip=1 of=bin/UTOS.BIN
+ldwrx6 -b -C 64768 -o utos.raw utos.o
+dd if=utos.raw bs=64768 skip=1 of=rom/UTOS.ROM
 rm utos.raw utos.o
 
 
