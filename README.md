@@ -31,6 +31,15 @@ for example...
 ./SerialDir COM1 9600
 ```
 
+If CCDP is to be booted up inside of an emulator, SerialDir can be configured to to work on a TCP socket connection instead of a serial line connection:
+
+```
+Usage: SerialDir -s [IP Address] [Port]
+
+for example...
+./SerialDir -s 192.168.0.1 2048
+```
+
 ### Part 2, Stage 1 Bootstrap
 
 Booting up CCDP happens in 2 stages. The first stage involves using a bootstrap to load a 256 byte bootloader program into memory. This will be done with a short 24 byte TOS type-in program, as there currently are no boot ROMs on the real system for booting serial.
